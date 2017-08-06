@@ -1,0 +1,28 @@
+{
+    "name": "blaze/blazing",
+    "description": "PHP Telegram Bot SDK",
+    "keywords": ["telegram", "telegram bot", "telegram bot sdk", "telegram php", "laravel", "laravel telegram bot", "laravel telegram"],
+    "type": "library",
+    "homepage": "https://github.com/BlazeMV/Blazing",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adam Dawood",
+            "email": "ad.adamdavid72@gmail.com",
+            "homepage": "https://github.com/BlazeMV"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Blazing\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "prefer-stable": true
+}
