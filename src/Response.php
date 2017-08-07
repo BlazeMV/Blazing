@@ -58,7 +58,11 @@ class Response{
     }
     
     public function getResult(){
-        return $this->array_response['result'];
+        if ($this->isOK()){
+            return $this->array_response['result'];
+        }else{
+            return $this->array_response;
+        }
     }
     
     public function getArray(){
@@ -66,10 +70,12 @@ class Response{
     }
     
     public function getErrorCode(){
+        if ($this->isOK()){return 0;}
         return $this->array_response['error_code'];
     }
     
     public function getErrorDesc(){
+        if ($this->isOK()){return "Not an error!";}
         return $this->array_response['description'];
     }
     

@@ -8,7 +8,8 @@ class Bot{
     protected $name;
     protected $id;
     protected $username;
-    
+    protected $start_Text = "Bot Started!";
+    protected $help_Text = "Help text haven't been set yet!";
     
     public function __construct($token){
         $this->token = $token;
@@ -54,10 +55,8 @@ class Bot{
         $data = array(
             'method' => 'getMe'
         );
-        $url = "https://api.telegram.org/bot" . $this->token . "/";
-        
-        $curl = new CurlRequest($url, $data);
-        return $curl->makeRequest();
+        $req = new Request($this, $data);
+        return $req->send();
     }
     
     public function getUpdates(){
@@ -65,7 +64,7 @@ class Bot{
 
         $data = json_decode($temp, true);
 
-        $Update = new Update($data);
+        $Update = new Update($data, $this);
         return $Update;
     }
     

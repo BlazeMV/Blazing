@@ -6,7 +6,7 @@ class Request{
     
     protected $data;
     protected $method;
-    protected $host
+    protected $host;
     
     public function __construct($host, array $data=null, $method=null){
         if (isset($data['method'])){
@@ -24,7 +24,7 @@ class Request{
             }
         }
         $this->data = $data;
-        $this->host = host;
+        $this->host = $host;
     }
     
     public function __get($field) {
@@ -68,7 +68,7 @@ class Request{
         if ($this->method == null || $this->data == null){
             throw new \Exception("Invalid Request!");
         }
-        if (!isset$this->data['method']){
+        if (!isset($this->data['method'])){
             $this->data['method'] = $this->method;
         }
         $url = "https://api.telegram.org/bot" . $this->host->getToken() . "/";
