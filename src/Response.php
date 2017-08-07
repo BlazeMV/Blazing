@@ -10,29 +10,28 @@ class Response{
     public function __construct($json_response){
         $this->json_response = $json_response;
         $this->array_response = json_decode($json_response, true);
-        $this->id = $this->getMe()->getResult()['id'];
     }
     
     public function __get($field) {
         $field_lc = strtolower($field);
-        if (property_exists($this->$field)){
+        if (property_exists($this, $field)){
             return $this->$field;
-        }elseif (property_exists($this->$field_lc)){
+        }elseif (property_exists($this, $field_lc)){
             return $this->$field_lc;
         }else{
-            throw new /Exception("Unknown method get" . $field);
+            throw new \Exception("Unknown method get" . $field);
         }
         
     }
     
     public function __set($field, $value) {
         $field_lc = strtolower($field);
-        if (property_exists($this->$field)){
+        if (property_exists($this, $field)){
             $this->$field = $value;
-        }elseif (property_exists($this->$field_lc)){
+        }elseif (property_exists($this, $field_lc)){
             $this->$field_lc = $value;
         }else{
-            throw new /Exception("Unknown method set" . $field);
+            throw new \Exception("Unknown method set" . $field);
         }
     }
     
@@ -42,7 +41,7 @@ class Response{
         }elseif (substr((string)$method, 0, 3) == 'set'){
             return $this->__set(substr($method, 3), $args);
         }else{
-            throw new /Exception("Unknown method " . $method);
+            throw new \Exception("Unknown method " . $method);
         }
     }
     
