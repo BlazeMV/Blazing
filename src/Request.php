@@ -74,7 +74,7 @@ class Request{
         $url = "https://api.telegram.org/bot" . $this->host->getToken() . "/";
         
         $curl = new CurlRequest($url, $this->data);
-        return $curl->makeRequest();
+        return $curl->execute();
     }
     
     public function makeMessage($params){

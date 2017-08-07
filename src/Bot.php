@@ -68,4 +68,9 @@ class Bot{
         $Update = new Update($data);
         return $Update;
     }
+    
+    public function sendRequest($data){
+        $req = new Request($this, $data);
+        return $req->send();
+    }
 }

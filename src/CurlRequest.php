@@ -45,7 +45,7 @@ class CurlRequest{
         }
     }
     
-    public function makeRequest(){
+    public function execute(){
         $data = json_encode($this->data);
         if (json_last_error() !== JSON_ERROR_NONE){
             throw new \Exception("the array provided could not be properly encoded as a json object!");
