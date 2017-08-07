@@ -13,32 +13,42 @@ class CurlRequest{
     }
     
     public function __get($field) {
-        $field_lc = strtolower($field);
-        if (property_exists($this, $field)){
-            return $this->$field;
-        }elseif (property_exists($this, $field_lc)){
-            return $this->$field_lc;
-        }else{
+        $field_name = str_ireplace(array('_', '-', '.'), '', $field);
+        $ref = new ReflectionClass($this);
+        $found = false;
+        foreach ($ref->getproperties() as $prop){
+            if (strtolower($prop->getName()) == strtolower($field_name)){
+                $found = true;
+                $temp = $prop->getName();
+                return $this->$temp;
+            }
+        }
+        if (!$found){
             throw new \Exception("Unknown method get" . $field);
         }
-        
     }
     
     public function __set($field, $value) {
-        $field_lc = strtolower($field);
-        if (property_exists($this, $field)){
-            $this->$field = $value;
-        }elseif (property_exists($this, $field_lc)){
-            $this->$field_lc = $value;
-        }else{
+        $field_name = str_ireplace(array('_', '-', '.'), '', $field);
+        $ref = new ReflectionClass($this);
+        $found = false;
+        foreach ($ref->getproperties() as $prop){
+            if (strtolower($prop->getName()) == strtolower($field_name)){
+                $found = true;
+                $temp = $prop->getName();
+                $this->$temp = $value[0];
+                return true;
+            }
+        }
+        if (!$found){
             throw new \Exception("Unknown method set" . $field);
         }
     }
     
     public function __call($method, $args) {
-        if (substr((string)$method, 0, 3) == 'get'){
+        if (strtolower(substr((string)$method, 0, 3)) == 'get'){
             return $this->__get(substr($method, 3));
-        }elseif (substr((string)$method, 0, 3) == 'set'){
+        }elseif (strtolower(substr((string)$method, 0, 3)) == 'set'){
             return $this->__set(substr($method, 3), $args);
         }else{
             throw new \Exception("Unknown method " . $method);

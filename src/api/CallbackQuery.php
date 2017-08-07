@@ -1,15 +1,20 @@
 <?php
 
-namespace Blazing;
+namespace Blazing\api;
 
-class Response{
+class CallBackQuery{
     
-    protected $json_response;
-    protected $array_response;
+    protected $CallBackQuery;
+    protected $id;
+    protected $from;
+    protected $message;
+    protected $InlineMessageId;
+    protected $ChatInstance;
+    protected $data;
+    protected $GameShortName;
     
-    public function __construct($json_response){
-        $this->json_response = $json_response;
-        $this->array_response = json_decode($json_response, true);
+    public function __construct(array $query){
+        $this->CallBackQuery = $query;
     }
     
     public function __get($field) {
@@ -53,40 +58,6 @@ class Response{
         }else{
             throw new \Exception("Unknown method " . $method);
         }
-    }
-    
-    public function getJson(){
-        return $this->json_response;
-    }
-    
-    public function isOK(){
-        if ($this->array_response['ok'] == true){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    
-    public function getResult(){
-        if ($this->isOK()){
-            return $this->array_response['result'];
-        }else{
-            return $this->array_response;
-        }
-    }
-    
-    public function getArray(){
-        return $this->array_response;
-    }
-    
-    public function getErrorCode(){
-        if ($this->isOK()){return 0;}
-        return $this->array_response['error_code'];
-    }
-    
-    public function getErrorDesc(){
-        if ($this->isOK()){return "Not an error!";}
-        return $this->array_response['description'];
     }
     
 }

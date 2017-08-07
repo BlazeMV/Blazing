@@ -1,15 +1,29 @@
 <?php
 
-namespace Blazing;
+namespace Blazing\api;
 
-class Response{
+class Entity{
     
-    protected $json_response;
-    protected $array_response;
+    protected $entity;
+    protected $type;
+    protected $offset;
+    protected $length;
+    protected $url;
+    protected $user;
+    protected $message;
     
-    public function __construct($json_response){
-        $this->json_response = $json_response;
-        $this->array_response = json_decode($json_response, true);
+    public function __construct($entity, $message){
+        $this->entity = $entity;
+        $this->message = $message
+        $this->offset = $this->entity['offset'];
+        $this->length = $this->entity['length'];
+        $this->type = $this->entity['type'];
+        if (isset($this->entity['url'])){
+            $this->url = $this->entity['url'];
+        }
+        if (isset($this->entity['user'])){
+            $this->user = $this->entity['user'];
+        }
     }
     
     public function __get($field) {
@@ -55,38 +69,8 @@ class Response{
         }
     }
     
-    public function getJson(){
-        return $this->json_response;
-    }
-    
-    public function isOK(){
-        if ($this->array_response['ok'] == true){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    
-    public function getResult(){
-        if ($this->isOK()){
-            return $this->array_response['result'];
-        }else{
-            return $this->array_response;
-        }
-    }
-    
-    public function getArray(){
-        return $this->array_response;
-    }
-    
-    public function getErrorCode(){
-        if ($this->isOK()){return 0;}
-        return $this->array_response['error_code'];
-    }
-    
-    public function getErrorDesc(){
-        if ($this->isOK()){return "Not an error!";}
-        return $this->array_response['description'];
+    public function getText(){
+        return substr($this->getMessage()->getText(), $this->getOffset(), $this->getLength());
     }
     
 }
