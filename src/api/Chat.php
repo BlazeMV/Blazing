@@ -24,7 +24,7 @@ class Chat{
     
     public function __get($field) {
         $field_name = str_ireplace(array('_', '-', '.'), '', $field);
-        $ref = new ReflectionClass($this);
+        $ref = new \ReflectionClass($this);
         $found = false;
         foreach ($ref->getproperties() as $prop){
             if (strtolower($prop->getName()) == strtolower($field_name)){
@@ -40,7 +40,7 @@ class Chat{
     
     public function __set($field, $value) {
         $field_name = str_ireplace(array('_', '-', '.'), '', $field);
-        $ref = new ReflectionClass($this);
+        $ref = new \ReflectionClass($this);
         $found = false;
         foreach ($ref->getproperties() as $prop){
             if (strtolower($prop->getName()) == strtolower($field_name)){
