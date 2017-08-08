@@ -2,11 +2,14 @@
 
 namespace Blazing\api;
 
-class CallBackQuery{
+use Blazing\BaseModel;
+
+class CallBackQuery extends BaseModel{
     
     protected $CallBackQuery;
     protected $id;
     protected $from;
+    protected $sender;
     protected $message;
     protected $InlineMessageId;
     protected $ChatInstance;
@@ -15,48 +18,23 @@ class CallBackQuery{
     
     public function __construct(array $query){
         $this->CallBackQuery = $query;
-    }
-    
-    public function __get($field) {
-        $field_name = str_ireplace(array('_', '-', '.'), '', $field);
-        $ref = new \ReflectionClass($this);
-        $found = false;
-        foreach ($ref->getproperties() as $prop){
-            if (strtolower($prop->getName()) == strtolower($field_name)){
-                $found = true;
-                $temp = $prop->getName();
-                return $this->$temp;
-            }
+        $this->id = $this->CallBackQuery['id'];
+        $this->from = $this->CallBackQuery['from'];
+        $this->sender = $this->from;
+        if (isset($this->CallBackQuery['message'])){
+            $this->message = $this->CallBackQuery['message'];
         }
-        if (!$found){
-            throw new \Exception("Unknown method get" . $field);
+        if (isset($this->CallBackQuery['inline_message_id'])){
+            $this->InlineMessageId = $this->CallBackQuery['inline_message_id'];
         }
-    }
-    
-    public function __set($field, $value) {
-        $field_name = str_ireplace(array('_', '-', '.'), '', $field);
-        $ref = new \ReflectionClass($this);
-        $found = false;
-        foreach ($ref->getproperties() as $prop){
-            if (strtolower($prop->getName()) == strtolower($field_name)){
-                $found = true;
-                $temp = $prop->getName();
-                $this->$temp = $value[0];
-                return true;
-            }
+        if (isset($this->CallBackQuery['chat_instance'])){
+            $this->ChatInstance = $this->CallBackQuery['chat_instance'];
         }
-        if (!$found){
-            throw new \Exception("Unknown method set" . $field);
+        if (isset($this->CallBackQuery['data'])){
+            $this->data = $this->CallBackQuery['data'];
         }
-    }
-    
-    public function __call($method, $args) {
-        if (strtolower(substr((string)$method, 0, 3)) == 'get'){
-            return $this->__get(substr($method, 3));
-        }elseif (strtolower(substr((string)$method, 0, 3)) == 'set'){
-            return $this->__set(substr($method, 3), $args);
-        }else{
-            throw new \Exception("Unknown method " . $method);
+        if (isset($this->CallBackQuery['game_short_name'])){
+            $this->GameShortName = $this->CallBackQuery['game_short_name'];
         }
     }
     

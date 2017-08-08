@@ -2,9 +2,10 @@
 
 namespace Blazing\api;
 
+use Blazing\BaseModel;
 use Blazing\api\media\ChatPhoto;
 
-class Chat{
+class Chat extends BaseModel{
     
     protected $chat;
     protected $id;
@@ -12,56 +13,39 @@ class Chat{
     protected $title;
     protected $username;
     protected $FirstName;
-    protected LastName;
-    protected $allMembersAreAdministrators;
+    protected $LastName;
+    protected $AllMembersAreAdministrators;
     protected $photo;
     protected $description;
     protected $InviteLink;
     
     public function __construct(array $chat){
         $this->chat = $chat;
-    }
-    
-    public function __get($field) {
-        $field_name = str_ireplace(array('_', '-', '.'), '', $field);
-        $ref = new \ReflectionClass($this);
-        $found = false;
-        foreach ($ref->getproperties() as $prop){
-            if (strtolower($prop->getName()) == strtolower($field_name)){
-                $found = true;
-                $temp = $prop->getName();
-                return $this->$temp;
-            }
+        $this->id = $this->chat['id'];
+        $this->type = $this->chat['type'];
+        if (isset($this->chat['title'])){
+            $this->title = $this->chat['title'];
         }
-        if (!$found){
-            throw new \Exception("Unknown method get" . $field);
+        if (isset($this->chat['username'])){
+            $this->username = $this->chat['username'];
         }
-    }
-    
-    public function __set($field, $value) {
-        $field_name = str_ireplace(array('_', '-', '.'), '', $field);
-        $ref = new \ReflectionClass($this);
-        $found = false;
-        foreach ($ref->getproperties() as $prop){
-            if (strtolower($prop->getName()) == strtolower($field_name)){
-                $found = true;
-                $temp = $prop->getName();
-                $this->$temp = $value[0];
-                return true;
-            }
+        if (isset($this->chat['first_name'])){
+            $this->FirstName = $this->chat['first_name'];
         }
-        if (!$found){
-            throw new \Exception("Unknown method set" . $field);
+        if (isset($this->chat['last_name'])){
+            $this->LastName = $this->chat['last_name'];
         }
-    }
-    
-    public function __call($method, $args) {
-        if (strtolower(substr((string)$method, 0, 3)) == 'get'){
-            return $this->__get(substr($method, 3));
-        }elseif (strtolower(substr((string)$method, 0, 3)) == 'set'){
-            return $this->__set(substr($method, 3), $args);
-        }else{
-            throw new \Exception("Unknown method " . $method);
+        if (isset($this->chat['all_members_are_administrators'])){
+            $this->AllMembersAreAdministrators = $this->chat['all_members_are_administrators'];
+        }
+        if (isset($this->chat['photo'])){
+            $this->photo = new ChatPhoto($this->chat['photo']);
+        }
+        if (isset($this->chat['description'])){
+            $this->description = $this->chat['description'];
+        }
+        if (isset($this->chat['invite_link'])){
+            $this->InviteLink = $this->chat['invite_link'];
         }
     }
     
