@@ -22,7 +22,7 @@ class Video{
             }
         }
         if (!$found){
-            throw new \Exception("Unknown method get" . $field);
+            throw new \Exception("Unknown method " . $method);
         }
     }
     

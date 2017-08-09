@@ -174,8 +174,8 @@ class Message{
         }
     }
     
-    public function has($field) {
-        if ($this->${$field} == null) {
+    public function has($strip_field) {
+        if ($this->${$strip_field} == null) {
             return false;
         }
         return true;
@@ -184,7 +184,7 @@ class Message{
     public function __call($method, $args) {
         if (strtolower(substr((string)$method, 0, 3)) == 'get'){
             $strip_field = substr($method, 3);
-            $strip_field = strtolower(str_ireplace(array('_', '-', '.'), '', $field));
+            $strip_field = strtolower(str_ireplace(array('_', '-', '.'), '', $strip_field));
             $ref = new \ReflectionClass($this);
             $found = false;
             foreach ($ref->getproperties() as $prop){
@@ -196,11 +196,11 @@ class Message{
                 }
             }
             if (!$found){
-                throw new \Exception("Unknown method get" . $field);
+                throw new \Exception("Unknown method " . $method);
             }
         }elseif (strtolower(substr((string)$method, 0, 3)) == 'set'){
             $strip_field = substr($method, 3);
-            $strip_field = strtolower(str_ireplace(array('_', '-', '.'), '', $field));
+            $strip_field = strtolower(str_ireplace(array('_', '-', '.'), '', $strip_field));
             $ref = new \ReflectionClass($this);
             $found = false;
             foreach ($ref->getproperties() as $prop){
@@ -212,7 +212,7 @@ class Message{
                 }
             }
             if (!$found){
-                throw new \Exception("Unknown method get" . $field);
+                throw new \Exception("Unknown method " . $method);
             }
         }else{
             throw new \Exception("Unknown method " . $method);
