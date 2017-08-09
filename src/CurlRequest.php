@@ -19,7 +19,7 @@ class CurlRequest{
             $ref = new \ReflectionClass($this);
             $found = false;
             foreach ($ref->getproperties() as $prop){
-                $strip_prop = strtolower(str_ireplace(array('_', '-', '.'), '', $prop));
+                $strip_prop = strtolower(str_ireplace(array('_', '-', '.'), '', $prop->getName()));
                 if ($strip_field == $strip_prop){
                     $found = true;
                     $temp = $prop->getName();
@@ -35,7 +35,7 @@ class CurlRequest{
             $ref = new \ReflectionClass($this);
             $found = false;
             foreach ($ref->getproperties() as $prop){
-                $strip_prop = strtolower(str_ireplace(array('_', '-', '.'), '', $prop));
+                $strip_prop = strtolower(str_ireplace(array('_', '-', '.'), '', $prop->getName()));
                 if ($strip_field == $strip_prop){
                     $found = true;
                     $temp = $prop->getName();
