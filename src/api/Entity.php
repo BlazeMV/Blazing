@@ -2,9 +2,7 @@
 
 namespace Blazing\api;
 
-use Blazing\BaseModel;
-
-class Entity extends BaseModel{
+class Entity{
     
     protected $entity;
     protected $type;
@@ -25,6 +23,44 @@ class Entity extends BaseModel{
         }
         if (isset($this->entity['user'])){
             $this->user = $this->entity['user'];
+        }
+    }
+    
+    public function __call($method, $args) {
+        if (strtolower(substr((string)$method, 0, 3)) == 'get'){
+            $strip_field = substr($method, 3);
+            $strip_field = strtolower(str_ireplace(array('_', '-', '.'), '', $field));
+            $ref = new \ReflectionClass($this);
+            $found = false;
+            foreach ($ref->getproperties() as $prop){
+                $strip_prop = strtolower(str_ireplace(array('_', '-', '.'), '', $prop));
+                if ($strip_field == $strip_prop){
+                    $found = true;
+                    $temp = $prop->getName();
+                    return $this->$temp;
+                }
+            }
+            if (!$found){
+                throw new \Exception("Unknown method get" . $field);
+            }
+        }elseif (strtolower(substr((string)$method, 0, 3)) == 'set'){
+            $strip_field = substr($method, 3);
+            $strip_field = strtolower(str_ireplace(array('_', '-', '.'), '', $field));
+            $ref = new \ReflectionClass($this);
+            $found = false;
+            foreach ($ref->getproperties() as $prop){
+                $strip_prop = strtolower(str_ireplace(array('_', '-', '.'), '', $prop));
+                if ($strip_field == $strip_prop){
+                    $found = true;
+                    $temp = $prop->getName();
+                    $this->$temp = $args[0];
+                }
+            }
+            if (!$found){
+                throw new \Exception("Unknown method get" . $field);
+            }
+        }else{
+            throw new \Exception("Unknown method " . $method);
         }
     }
     
