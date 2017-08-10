@@ -24,5 +24,10 @@
     "config": {
         "preferred-install": "dist"
     },
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "test": [
+            "Blazing\\ComposerScripts::createTest"
+        ]
+    }
 }
