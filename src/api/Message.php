@@ -91,7 +91,7 @@ class Message{
         }
         if (isset($this->message['entities'])) {
             foreach ($this->message['entities'] as $entity) {
-                $this->entities[] = new Entity($entity);
+                $this->entities[] = new Entity($entity, $this);
             }
         }
         if (isset($this->message['audio'])) {
@@ -175,7 +175,7 @@ class Message{
     }
     
     public function has($strip_field) {
-        if ($this->${$strip_field} == null) {
+        if ($this->$strip_field == null) {
             return false;
         }
         return true;
@@ -217,6 +217,24 @@ class Message{
         }else{
             throw new \Exception("Unknown method " . $method);
         }
+    }
+    
+    public function hasCommand(){
+        foreach ($this->entities as $entity){
+            if ($entity->getType() == 'bot_command'){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function getCommand(){
+        foreach ($this->entities as $entity){
+            if ($entity->getType() == 'bot_command'){
+                return $entity->getText();
+            }
+        }
+        throw new \Exception("Message does not contain a command!");
     }
     
     

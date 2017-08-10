@@ -14,7 +14,7 @@ class Entity{
     
     public function __construct($entity, $message){
         $this->entity = $entity;
-        $this->message = $message
+        $this->message = $message;
         $this->offset = $this->entity['offset'];
         $this->length = $this->entity['length'];
         $this->type = $this->entity['type'];

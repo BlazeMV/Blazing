@@ -51,14 +51,14 @@ class Update{
         }
         
         if ($this->getUpdateType() == 'Message'){
-            $msg = $this->getUpdateObject();
-            if ($msg->getCommand != false){
-                switch (strtolower($msg->getCommand())) {
+            $msg = $this->updateobject;
+            if ($this->hasCommand()){
+                switch (strtolower($this->getCommand())) {
                     case "/start":
                         $bot->sendRequest(array(
                             'method' => 'sendMessage',
                             'text' => $this->host->getStartText(),
-                            'chat_id' => $msg->getChatId(),
+                            'chat_id' => $msg->getChat()->getId(),
                             'reply_to_message_id' => $msg->getMessageId()
                         ));
                         break;
@@ -66,8 +66,8 @@ class Update{
                     case "/help":
                         $bot->sendRequest(array(
                             'method' => 'sendMessage',
-                            'text' => $this->host->getHelpText(),
-                            'chat_id' => $msg->getChatId(),
+                            'text' => $this->host->getHelpText() . ", " . $msg->getMessageId(),
+                            'chat_id' => $msg->getChat()->getId(),
                             'reply_to_message_id' => $msg->getMessageId()
                         ));
                         break;
