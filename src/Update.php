@@ -68,7 +68,7 @@ class Update{
                             'method' => 'sendMessage',
                             'text' => $this->host->getHelpText() . ", " . $msg->getMessageId() ,
                             'chat_id' => $msg->getChat()->getId(),
-                            'reply_to_message_id' => $msg->getMessageId()
+                            'reply_to_message_id' => $msg->getMessageId() 
                         ));
                         break;
                 }
