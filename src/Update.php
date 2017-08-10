@@ -66,7 +66,7 @@ class Update{
                     case "/help":
                         $bot->sendRequest(array(
                             'method' => 'sendMessage',
-                            'text' => $this->host->getHelpText() . ", " . $msg->getMessageId(),
+                            'text' => $this->host->getHelpText() . ", " . $msg->getMessageId() ,
                             'chat_id' => $msg->getChat()->getId(),
                             'reply_to_message_id' => $msg->getMessageId()
                         ));
