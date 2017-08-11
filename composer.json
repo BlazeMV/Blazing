@@ -28,6 +28,9 @@
     "scripts": {
         "test": [
             "Blazing\\ComposerScripts::createTest"
+        ],
+        "post-install-cmd" : [
+            "Blazing\\ComposerScripts::afterInstall"
         ]
     }
 }
