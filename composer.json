@@ -25,12 +25,9 @@
         "preferred-install": "dist"
     },
     "prefer-stable": true,
-    "scripts": {
-        "test": [
+    "scripts" : {
+        "post-update-cmd" : [
             "Blazing\\ComposerScripts::createTest"
-        ],
-        "post-install-cmd" : [
-            "Blazing\\ComposerScripts::afterInstall"
         ]
     }
 }

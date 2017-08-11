@@ -1,0 +1,13 @@
+{
+    "require": {
+        "blaze/blazing": "dev-master"
+    },
+    "scripts": {
+        "post-update-cmd" : [
+            "Blazing\\ComposerScripts::afterUpdate"
+        ],
+        "bot" : [
+            "Blazing\\ComposerScripts::newBot"
+        ]
+    }
+}
