@@ -6,21 +6,33 @@ use Composer\Script\Event;
 
 class ComposerScripts
 {
-    public function new(Event $event)
+    public static function new(Event $event)
     {
         $args = $event->getArguments();
+		
+		if (count($args) == 0)
+		{
+			echo "invalid command!";
+			exit();
+		}
         switch (strtolower($args[0]))
         {
             case "bot" : 
-                $this->newBot($args);
+                self::newBot($args);
                 break;
             case "command" : 
-                $this->newCommand($args);
+                self::newCommand($args);
         }
     }
     
-    private function newBot(array $args)
+    private static function newBot(array $args)
     {
+		if (count($args) != 3)
+		{
+			echo "invalid format!\ncomposer new bot [bot_name] [bot_token]\n2 parameters required! given " . count($args);
+			exit();
+		}
+		
         $name = $args[1];
         $token = $args[2];
         
@@ -32,17 +44,28 @@ class ComposerScripts
         if ($tokenresult != 1)
         {
             echo "invalid token provided!";
+			exit();
         }
         if ($nameresult != 1)
         {
-            echo "invalid bot name!"
+            echo "invalid bot name!";
+			exit();
         }
         
-        $text = "<?php\nrequire('vendor/autoload.php')\n";
-        file_put_contents($name . ".php", $text);
+		if (file_exists($name))
+		{
+			echo "a bot named " . $name . " already exists!";
+			exit();
+		}
+		
+		$text = "<?php\n\nnamespace Blazing;\n\ninclude('vendor/autoload.php');\n\n$" . $name . " = new Bot('" . $token . "');\n\necho $" . $name . "->getUpdates();";
+        mkdir($name);
+		file_put_contents($name . "/" . $name . ".php", $text);
+		echo $name . " initialized successfully! Build something amazing!";
+		exit();
     }
     
-    private function newCommand(array $args)
+    private static function newCommand(array $args)
     {
         
     }
