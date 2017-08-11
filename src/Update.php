@@ -23,35 +23,35 @@ class Update{
             $this->update_id = $this->update['update_id'];
         }
         if (isset($this->update['message'])){
-            $this->updateObject = new Message($this->update['message']);
+            $this->updateobject = new Message($this->update['message']);
         }
         if (isset($this->update['edited_message'])){
-            $this->updateObject = new Message($this->update['edited_message']);
+            $this->updateobject = new Message($this->update['edited_message']);
         }
         if (isset($this->update['channel_post'])){
-            $this->updateObject = new Message($this->update['channel_post']);
+            $this->updateobject = new Message($this->update['channel_post']);
         }
         if (isset($this->update['edited_channel_post'])){
-            $this->updateObject = new Message($this->update['edited_channel_post']);
+            $this->updateobject = new Message($this->update['edited_channel_post']);
         }
         if (isset($this->update['inline_query'])){
-            $this->updateObject = new InlineQuery($this->update['inline_query']);
+            $this->updateobject = new InlineQuery($this->update['inline_query']);
         }
         if (isset($this->update['chosen_inline_result'])){
-            $this->updateObject = new ChosenInlineResult($this->update['chosen_inline_result']);
+            $this->updateobject = new ChosenInlineResult($this->update['chosen_inline_result']);
         }
         if (isset($this->update['callback_query'])){
-            $this->updateObject = new CallbackQuery($this->update['callback_query']);
+            $this->updateobject = new CallbackQuery($this->update['callback_query']);
         }
         if (isset($this->update['shipping_query'])){
-            $this->updateObject = new ShippingQuery($this->update['shipping_query']);
+            $this->updateobject = new ShippingQuery($this->update['shipping_query']);
         }
         if (isset($this->update['pre_checkout_query'])){
-            $this->updateObject = new PreCheckoutQuery($this->update['pre_checkout_query']);
+            $this->updateobject = new PreCheckoutQuery($this->update['pre_checkout_query']);
         }
         
         if ($this->getUpdateType() == 'Message'){
-            $msg = $this->updateobject;
+            $msg = $this->getUpdateObject;
             if ($this->hasCommand()){
                 switch (strtolower($this->getCommand())) {
                     case "/start":
@@ -116,7 +116,7 @@ class Update{
     
     public function getUpdateType(){
         $ok = false;
-        $tempref = new \ReflectionClass($this->updateObject);
+        $tempref = new \ReflectionClass($this->getUpdateObject);
         $type = $tempref->getShortName();
         foreach (self::UpdateTypes as &$value) {
             if ($type == $value){

@@ -58,7 +58,7 @@ class ComposerScripts
 			exit();
 		}
 		
-		$text = "<?php\n\nnamespace Blazing;\n\ninclude('vendor/autoload.php');\n\n$" . $name . " = new Bot('" . $token . "');\n\necho $" . $name . "->getUpdates();";
+		$text ="<?php\n\nnamespace Blazing;\n\ninclude('../vendor/autoload.php');\n\n$" . $name . " = new Bot('" . $token . "');\n\necho $" . $name . "->getUpdates();";
         mkdir($name);
 		file_put_contents($name . "/" . $name . ".php", $text);
 		echo $name . " initialized successfully! Build something amazing!";
