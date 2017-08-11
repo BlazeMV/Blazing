@@ -51,7 +51,7 @@ class Update{
         }
         
         if ($this->getUpdateType() == 'Message'){
-            $msg = $this->getUpdateObject;
+            $msg = $this->getUpdateObject();
             if ($this->hasCommand()){
                 switch (strtolower($this->getCommand())) {
                     case "/start":
@@ -116,7 +116,7 @@ class Update{
     
     public function getUpdateType(){
         $ok = false;
-        $tempref = new \ReflectionClass($this->getUpdateObject);
+        $tempref = new \ReflectionClass($this->getUpdateObject());
         $type = $tempref->getShortName();
         foreach (self::UpdateTypes as &$value) {
             if ($type == $value){
