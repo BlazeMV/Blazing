@@ -28,6 +28,18 @@
     "scripts" : {
         "post-update-cmd" : [
             "Blazing\\ComposerScripts::createTest"
+        ],
+        "post-root-package-install": [
+            "Blazing\\ComposerScripts::createTest"
+        ],
+        "post-create-project-cmd": [
+            "Blazing\\ComposerScripts::createTest"
+        ],
+        "post-install-cmd": [
+            "Blazing\\ComposerScripts::createTest"
+        ],
+        "post-update-cmd": [
+            "Blazing\\ComposerScripts::createTest"
         ]
     }
 }
