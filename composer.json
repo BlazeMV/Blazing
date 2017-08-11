@@ -19,7 +19,8 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.5.0"
+        "php": ">=5.5.0",
+        "composer/composer" : "1.5"
     },
     "config": {
         "preferred-install": "dist"
