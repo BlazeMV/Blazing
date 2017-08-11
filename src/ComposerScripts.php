@@ -12,10 +12,10 @@ class ComposerScripts
         switch (strtolower($args[0]))
         {
             case "bot" : 
-                this->newBot($args);
+                $this->newBot($args);
                 break;
             case "command" : 
-                this->newCommand($args);
+                $this->newCommand($args);
         }
     }
     
