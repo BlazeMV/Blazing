@@ -8,9 +8,9 @@ class InlineKeyboardMarkup
     protected $keyboard;
     
     public function __construct(array $rows){
-        $this->InlineKeyboard = $rows;
-        $this->keyboard = $rows;
-        return $rows;
+        $this->InlineKeyboard = array('inline_keyboard'=>$rows);
+        $this->keyboard = json_encode($this->InlineKeyboard, true);
+        return $this->keyboard;
     }
     
     public function __call($method, $args) {
