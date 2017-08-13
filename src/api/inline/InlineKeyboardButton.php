@@ -1,19 +1,23 @@
 <?php
 
-namespace Blazing;
+namespace Blazing\api\inline;
 
-class Bot{
+class InlineKeyboardButton
+{
+    protected $button;
     
-    protected $token;
-    protected $name;
-    protected $id;
-    protected $username;
-    
-    public function __construct($token){
-        $this->token = $token;
-        $this->name = $this->getMe()->getResult()['first_name'];
-        $this->username = $this->getMe()->getResult()['username'];
-        $this->id = $this->getMe()->getResult()['id'];
+    public function __construct(array $data){
+        if (!isset($data['text']))
+        {
+            throw new \Exception("a text field is required for an Inline Keyboard Button!");
+        }
+        if (count($data) !== 2){
+            throw new \Exception("Invalid Button construct request! required exactly 2 parameters. given ". count($data));
+        }
+        
+        
+        $this->button = $data;
+        return $data;
     }
     
     public function __call($method, $args) {
@@ -54,27 +58,5 @@ class Bot{
         }
     }
     
-    public function getMe(){
-        $data = array(
-            'method' => 'getMe'
-        );
-        $req = new Request($this, $data);
-        return $req->send();
-    }
     
-    public function getUpdates(){
-        $temp = file_get_contents('php://input');
-
-        $data = json_decode($temp, true);
-
-        if ($data == null){$data = json_decode('{"update_id":34126432,"message":{"message_id":1575,"from":{"id":127582984,"first_name":"BlazeMV","username":"BlazeMV","language_code":"en-GB"},"chat":{"id":127582984,"first_name":"BlazeMV","username":"BlazeMV","type":"private"},"date":1502350376,"text":"\/start","entities":[{"type":"bot_command","offset":0,"length":6}]}}',true);}
-        
-        $Update = new Update($data, $this);
-        return $Update;
-    }
-    
-    public function sendRequest($data){
-        $req = new Request($this, $data);
-        return $req->send();
-    }
 }

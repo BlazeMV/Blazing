@@ -20,7 +20,7 @@ class Message{
     
     //fields/properties/vars region
     protected $message;
-    protected $MessageId;
+    protected $id;
     protected $text;
     protected $chat;
     protected $sender;
@@ -62,7 +62,7 @@ class Message{
     
     public function __construct(array $message){
         $this->message = $message;
-        $this->MessageId = $this->message['message_id'];
+        $this->id = $this->message['message_id'];
         if (isset($this->message['text'])) {
             $this->text = $this->message['text'];
         }

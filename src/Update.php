@@ -8,6 +8,8 @@ use Blazing\api\CallbackQuery;
 use Blazing\api\payment\ShippingQuery;
 use Blazing\api\payment\PreCheckoutQuery;
 
+use mybots\kristie\Commands;
+
 class Update{
     protected $update;
     protected $update_id;
@@ -52,27 +54,21 @@ class Update{
         
         if ($this->getUpdateType() == 'Message'){
             $msg = $this->getUpdateObject();
-            if ($this->hasCommand()){
-                switch (strtolower($this->getCommand())) {
-                    case "/start":
-                        $bot->sendRequest(array(
-                            'method' => 'sendMessage',
-                            'text' => $this->host->getStartText(),
-                            'chat_id' => $msg->getChat()->getId(),
-                            'reply_to_message_id' => $msg->getMessageId()
-                        ));
-                        break;
-
-                    case "/help":
-                        $bot->sendRequest(array(
-                            'method' => 'sendMessage',
-                            'text' => $this->host->getHelpText(),
-                            'chat_id' => $msg->getChat()->getId(),
-                            'reply_to_message_id' => $msg->getMessageId() 
-                        ));
-                        break;
-                }
+            if ($this->hasCommand())
+            {
+                $command = strtolower(str_ireplace('/', '', $this->getCommand()));
+                    
+                $class = BOT_NAME . '\Commands';
+                $class::$command($bot, $msg);
             }
+        }
+        if ($this->getUpdateType() == 'CallBackQuery'){
+            $cbq = $this->getUpdateObject();
+            $querystr = strtolower($this->getCallBackQueryData());
+            $queryarray = explode(' ', $querystr, 2);
+            
+            $class = BOT_NAME . '\CallBackQueries';
+            $class::$queryarray[0]($bot, $cbq);
         }
     }
     
