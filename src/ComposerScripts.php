@@ -45,7 +45,7 @@ class ComposerScripts
         $token = $args[2];
         
         $pregtoken = '/^[0-9]{9}:[a-zA-Z0-9-]{35}$/';
-        $pregname = '/^[a-zA-Z0-9]{1,10}$/';
+        $pregname = '/^[a-zA-Z0-9]{1,20}$/';
         $tokenresult = preg_match($pregtoken, $token);
         $nameresult = preg_match($pregname, $name);
         
@@ -71,9 +71,13 @@ class ComposerScripts
             exit();
         }
         if(FileBuilder::buildBotFile($name, $token) == false){
-            echo "An error occured!";
+            echo "An error occured! Bot deleted! please try to create a new bot again.";
+            $this->rrmdir($name);
             exit();
         }
+        
+        $logger = new Logger($name);
+        $logger->init();
         
 		echo $name . " created successfully! Happy Botting!";
 		exit();
@@ -103,7 +107,8 @@ class ComposerScripts
 			exit();
 		}
         
-        if (Kristie\Commands::has($command))
+        $class = $name.'\Commands';
+        if ($class::has($command))
         {
             echo 'command seems to be already registered!';
             exit();
@@ -142,7 +147,8 @@ class ComposerScripts
 			exit();
 		}
         
-        if (Kristie\CallBackQueries::has($query))
+        $class = $name.'\CallBackQueries';
+        if ($class::has($query))
         {
             echo 'callback query data seems to be already registered!';
             exit();
@@ -155,5 +161,23 @@ class ComposerScripts
         
 		echo 'CallBackQuery with data ' . $query . ' has been registered successfully for ' . $name;
 		exit();
+    }
+    
+    private function rrmdir($src) 
+    {
+        $dir = opendir($src);
+        while(false !== ( $file = readdir($dir)) ) {
+            if (( $file != '.' ) && ( $file != '..' )) {
+                $full = $src . '/' . $file;
+                if ( is_dir($full) ) {
+                    $this->rrmdir($full);
+                }
+                else {
+                    unlink($full);
+                }
+            }
+        }
+        closedir($dir);
+        rmdir($src);
     }
 }

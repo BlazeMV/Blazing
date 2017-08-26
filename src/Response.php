@@ -70,6 +70,10 @@ class Response{
         }
     }
     
+    public function getMsgId(){
+        return $this->array_response['result']['message_id'];
+    }
+    
     public function getArray(){
         return $this->array_response;
     }

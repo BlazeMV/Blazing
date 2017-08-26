@@ -17,10 +17,10 @@ class CallBackQuery{
     public function __construct(array $query){
         $this->CallBackQuery = $query;
         $this->id = $this->CallBackQuery['id'];
-        $this->from = $this->CallBackQuery['from'];
+        $this->from = new User($this->CallBackQuery['from']);
         $this->sender = $this->from;
         if (isset($this->CallBackQuery['message'])){
-            $this->message = $this->CallBackQuery['message'];
+            $this->message = new Message($this->CallBackQuery['message']);
         }
         if (isset($this->CallBackQuery['inline_message_id'])){
             $this->InlineMessageId = $this->CallBackQuery['inline_message_id'];

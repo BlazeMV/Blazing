@@ -11,9 +11,10 @@ class Bot{
     
     public function __construct($token){
         $this->token = $token;
-        $this->name = $this->getMe()->getResult()['first_name'];
-        $this->username = $this->getMe()->getResult()['username'];
-        $this->id = $this->getMe()->getResult()['id'];
+        /*$me = $this->getMe()->getResult();
+        $this->name = $me['first_name'];
+        $this->username = $me['username'];
+        $this->id = $me['id'];*/
     }
     
     public function __call($method, $args) {

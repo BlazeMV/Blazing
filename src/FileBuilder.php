@@ -9,6 +9,7 @@ class FileBuilder
         $text = "<?php\n" . 
             "use Blazing\Bot;\n" . 
             "include('../vendor/autoload.php');\n\n" .
+            "date_default_timezone_set('UTC');\n\n" .
             "define('APP_ROOT_FOLDER', realpath(__DIR__.'/../'));\n" .
             "define('BOT_NAME', '" . $name . "');\n\n" .
             '$'."loader = require APP_ROOT_FOLDER . '/vendor/autoload.php';\n" .

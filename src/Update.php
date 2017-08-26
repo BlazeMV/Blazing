@@ -8,7 +8,7 @@ use Blazing\api\CallbackQuery;
 use Blazing\api\payment\ShippingQuery;
 use Blazing\api\payment\PreCheckoutQuery;
 
-use mybots\kristie\Commands;
+//use mybots\kristie\Commands;
 
 class Update{
     protected $update;
@@ -16,7 +16,7 @@ class Update{
     protected $updateobject;
     protected $host;
     
-    const UpdateTypes = array('Message', 'InlineQuery', 'ChosenInlineResult', 'CallbackQuery', 'ShippingQuery', 'PreCheckoutQuery');
+    const UpdateTypes = array('Message', 'InlineQuery', 'ChosenInlineResult', 'CallBackQuery', 'ShippingQuery', 'PreCheckoutQuery');
     
     public function __construct(array $resquest, $bot){
         $this->host = $bot;
@@ -60,15 +60,16 @@ class Update{
                     
                 $class = BOT_NAME . '\Commands';
                 $class::$command($bot, $msg);
+                
             }
         }
         if ($this->getUpdateType() == 'CallBackQuery'){
             $cbq = $this->getUpdateObject();
             $querystr = strtolower($this->getCallBackQueryData());
             $queryarray = explode(' ', $querystr, 2);
-            
+            $query = $queryarray[0];
             $class = BOT_NAME . '\CallBackQueries';
-            $class::$queryarray[0]($bot, $cbq);
+            $class::$query($bot, $cbq);
         }
     }
     
@@ -149,7 +150,7 @@ class Update{
     }
     
     public function isCallBackQuery(){
-        if ($this->getUpdateType() == 'CallbackQuery'){
+        if ($this->getUpdateType() == 'CallBackQuery'){
             return true;
         }else{
             return false;
@@ -160,7 +161,7 @@ class Update{
         if ($this->isCallBackQuery()){
             return $this->getUpdateObject()->getData();
         }else{
-            throw new \Exception("Update does not contain a bot command!");
+            throw new \Exception("Update does not contain a CBQ data!");
         }
     }
 }
