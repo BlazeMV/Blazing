@@ -72,6 +72,14 @@ class CurlRequest{
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         if ( $status != 201 && $status != 200 ) {
+            $data = $this->data;
+			if (isset($data['reply_to_message_id']){
+				unset($data['reply_to_message_id'];
+				$this->data = $data;
+				$this->execute();
+			}
+        }
+        if ( $status != 201 && $status != 200 ) {
             //die("Error: call to URL $this->url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl) . var_dump($data));
             $logger = new logger(BOT_NAME);
             $logger->logError("Error: call to URL $this->url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl) . print_r($data));
