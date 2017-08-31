@@ -37,8 +37,8 @@ class Logger
             exit();
         }
         
-        $this->logError("log files created successfully");
-        $this->logError("log files created successfully");
+        //$this->logError("log files created successfully");
+        //$this->logError("log files created successfully");
     }
     
     private function rrmdir($src) 
