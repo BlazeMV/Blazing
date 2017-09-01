@@ -74,7 +74,7 @@ class CurlRequest{
         if ( $status != 201 && $status != 200 ) {
             $data = $this->data;
 			if (isset($data['reply_to_message_id'])){
-				unset($data['reply_to_message_id'];
+				unset($data['reply_to_message_id']);
 				$this->data = $data;
 				$this->execute();
 			}
