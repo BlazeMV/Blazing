@@ -4,72 +4,65 @@ namespace Blazing;
 
 class FileBuilder
 {
-    public static function buildBotFile($name, $token)
+    public static function buildBotFiles($name, $token)
     {
-        $text = "<?php\n" . 
-            "use Blazing\Bot;\n" . 
-            "include('../vendor/autoload.php');\n\n" .
-            "date_default_timezone_set('UTC');\n\n" .
-            "define('APP_ROOT_FOLDER', realpath(__DIR__.'/../'));\n" .
-            "define('BOT_NAME', '" . $name . "');\n\n" .
-            '$'."loader = require APP_ROOT_FOLDER . '/vendor/autoload.php';\n" .
-            '$'."loader->setPsr4('" . $name . "\\\', __DIR__);\n\n" .
-            '$'."token = '" . $token . "';\n" .
-            "$" . $name . " = new Bot($token);\n" .
-            "return $" . $name . "->getUpdates();\n\n\n\n\n" .
-            "?>";
-        $text = "<?php\n" . 
-            "use Blazing\Bot;\n" . 
-            "include('../vendor/autoload.php');\n\n" .
-            "define('APP_ROOT_FOLDER', realpath(__DIR__.'/../'));\n" .
-            "define('BOT_NAME', '$name');\n\n" .
-            '$'."loader = require APP_ROOT_FOLDER . '/vendor/autoload.php';\n" .
-            '$'."loader->setPsr4('$name\\\', __DIR__);\n\n" .
-            '$'."token = '$token';\n" .
-            "$$name = new Bot('$token');\n" .
-            "return $".$name."->getUpdates();\n\n\n\n\n" .
-            "?>";
+        //bot.php
+        $searchF  = array('{bot_var_name}', '{bot_token}');
+        $replaceW = array($name, $token);
+
+        $fh = fopen("bot_file_templates/bot.txt", 'w');
+        $file = file_get_contents($fh);
+        fclose($fh);
+        $file = str_replace($searchF, $replaceW, $file);
+        $res = file_put_contents("$name/$name.php", $file);
+        fclose($fh);
         
-        if (file_put_contents($name . '/' . $name . '.php', $text) == false)
-        {
+        if ($res == false){
             return false;
         }
         
-        $text = "<?php\n\n" .
-            "namespace " . $name . ";\n\n" .
-            "class Commands\n" .
-            "{\n" .
-            "   public static function __callStatic(".'$'."method, ".'$'."args)\n" .
-            "   {\n" .
-            "       throw new \Exception('command /' . ".'$'."method . ' is not registered!');\n" .
-            "   }\n\n" .
-            "   public static function has(".'$'."command)\n" .
-            "   {\n" .
-            "       return method_exists(__CLASS__, ".'$'."command);\n" .
-            "   }\n" .
-            "}\n\n?>";
+        //updates.php
+        $searchF  = array('{bot_var_name}', '{bot_token}');
+        $replaceW = array($name, $token);
+
+        $fh = fopen("bot_file_templates/updates.txt", 'w');
+        $file = file_get_contents($fh);
+        fclose($fh);
+        $file = str_replace($searchF, $replaceW, $file);
+        $res = file_put_contents("$name/Updates.php", $file);
+        fclose($fh);
         
-        if (file_put_contents($name . '/Commands.php', $text) == false)
-        {
+        if ($res == false){
             return false;
         }
         
-        $text = "<?php\n\n" .
-            "namespace " . $name . ";\n\n" .
-            "class Commands\n" .
-            "{\n" .
-            "   public static function __callStatic(".'$'."method, ".'$'."args)\n" .
-            "   {\n" .
-            "       throw new \Exception('command /' . ".'$'."method . ' is not registered!');\n" .
-            "   }\n\n" .
-            "   public static function has(".'$'."command)\n" .
-            "   {\n" .
-            "       return method_exists(__CLASS__, ".'$'."command);\n" .
-            "   }\n" .
-            "}\n\n?>";
+        //commands.php
+        $searchF  = array('{bot_var_name}', '{bot_token}');
+        $replaceW = array($name, $token);
+
+        $fh = fopen("bot_file_templates/Commands.txt", 'w');
+        $file = file_get_contents($fh);
+        fclose($fh);
+        $file = str_replace($searchF, $replaceW, $file);
+        $res = file_put_contents("$name/Commands.php", $file);
+        fclose($fh);
         
-        if (file_put_contents($name . '/CallBackQueries.php', $text) == false)
-        {
+        if ($res == false){
+            return false;
+        }
+        
+        //callbackqueries.php
+        $searchF  = array('{bot_var_name}', '{bot_token}');
+        $replaceW = array($name, $token);
+
+        $fh = fopen("bot_file_templates/callbackqueries.txt", 'w');
+        $file = file_get_contents($fh);
+        fclose($fh);
+        $file = str_replace($searchF, $replaceW, $file);
+        $res = file_put_contents("$name/CallBackQueries.php", $file);
+        fclose($fh);
+        
+        if ($res == false){
             return false;
         }
         

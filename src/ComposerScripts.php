@@ -20,13 +20,13 @@ class ComposerScripts
             case "bot" : 
                 self::newBot($args);
                 break;
-            case "command" : 
+            /*case "command" : 
                 self::newCommand($args);
                 break;
             case "query" :
             case "callbackquery" :
                 self::newQuery($args);
-                break;
+                break;*/
             default :
                 echo "invalid command!";
                 break;
@@ -70,7 +70,7 @@ class ComposerScripts
             echo "An error occured!";
             exit();
         }
-        if(FileBuilder::buildBotFile($name, $token) == false){
+        if(FileBuilder::buildBotFiles($name, $token) == false){
             echo "An error occured! Bot deleted! please try to create a new bot again.";
             $this->rrmdir($name);
             exit();
@@ -79,7 +79,7 @@ class ComposerScripts
         $logger = new Logger($name);
         $logger->init();
         
-		echo $name . " created successfully! Happy Botting!";
+		echo "$name created successfully!\n\nHappy Botting!";
 		exit();
     }
     

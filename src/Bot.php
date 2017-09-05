@@ -9,12 +9,17 @@ class Bot{
     protected $id;
     protected $username;
     
-    public function __construct($token){
+    public function __construct($token, $username=null, $name=null, $id=null){
         $this->token = $token;
-        /*$me = $this->getMe()->getResult();
-        $this->name = $me['first_name'];
-        $this->username = $me['username'];
-        $this->id = $me['id'];*/
+        $this->name = $name;
+        $this->username = $username;
+        $this->id = $id;
+        if ($username == null || $name == null || $id == null){
+            $me = $this->getMe()->getResult();
+            $this->name = $me['first_name'];
+            $this->username = $me['username'];
+            $this->id = $me['id'];
+        }
     }
     
     public function __call($method, $args) {
