@@ -55,26 +55,6 @@ class Update{
         $class = BOT_NAME . '\Updates';
         $class::newUpdate($bot, $this);
         
-        /*if ($this->getUpdateType() == 'Message'){
-            $msg = $this->getUpdateObject();
-            if ($this->hasCommand())
-            {
-                $command = strtolower(str_ireplace('/', '', $this->getCommand()));
-                $command = str_ireplace('@'.$bot->getUsername(), '', $this->getCommand());
-                    
-                $class = BOT_NAME . '\Commands';
-                $class::$command($bot, $msg);
-                
-            }
-        }
-        if ($this->getUpdateType() == 'CallBackQuery'){
-            $cbq = $this->getUpdateObject();
-            $querystr = strtolower($this->getCallBackQueryData());
-            $queryarray = explode(' ', $querystr, 2);
-            $query = $queryarray[0];
-            $class = BOT_NAME . '\CallBackQueries';
-            $class::$query($bot, $cbq);
-        }*/
     }
     
     public function __call($method, $args) {
