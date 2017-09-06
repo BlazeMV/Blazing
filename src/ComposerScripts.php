@@ -70,14 +70,15 @@ class ComposerScripts
             echo "An error occured!";
             exit();
         }
+		
+		$logger = new Logger($name);
+        $logger->init();
+		
         if(FileBuilder::buildBotFiles($name, $token) == false){
             echo "An error occured! Bot deleted! please try to create a new bot again.";
             self::rrmdir($name);
             exit();
         }
-        
-        $logger = new Logger($name);
-        $logger->init();
         
 		echo "$name created successfully!\n\nHappy Botting!";
 		exit();
