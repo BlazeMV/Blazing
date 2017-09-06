@@ -7,10 +7,14 @@ class Logger
     protected $name;
     protected $path;
     
-    public function __construct($name)
+    public function __construct($name=null)
     {
-        $this->name = $name;
-        $this->path = $name.'/logs';
+		if ($name == null){
+			$this->name = BOT_NAME;
+		}else{
+			$this->name = $name;
+		}
+        $this->path = $this->name.'/logs';
     }
     
     public function init()

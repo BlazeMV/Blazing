@@ -17,15 +17,15 @@ function shutDownFunction() {
 }
 register_shutdown_function('shutDownFunction');
 
+//autoloads this bot (so you can use this bots namespace on other places)
 $loader = require APP_ROOT_FOLDER . '/vendor/autoload.php';
 $loader->setPsr4(BOT_NAME . '\\', __DIR__);
-
-$token = '{bot_token}';
 
 /**
  * Replace null with respective strings
  * or there will be a delay in responding for every update, since Bot class will have to make an extra request to the telegram server to get those parameters.
 */
+$token = '{bot_token}';
 $bot_username = null;
 $bot_name = null;
 $bot_id = null;

@@ -70,6 +70,9 @@ class CurlRequest{
         $json_response = curl_exec($curl);
 
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		
+		$logger = new Logger();
+		$logger->logResponse(print_r(json_decode($json_response,true),true));
 
         if ( $status != 201 && $status != 200 ) {
             $data = $this->data;

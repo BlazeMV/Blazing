@@ -75,6 +75,9 @@ class Bot{
 
         if ($data == null){$data = json_decode('{"update_id":34126432,"message":{"message_id":1575,"from":{"id":127582984,"first_name":"BlazeMV","username":"BlazeMV","language_code":"en-GB"},"chat":{"id":127582984,"first_name":"BlazeMV","username":"BlazeMV","type":"private"},"date":1502350376,"text":"\/start","entities":[{"type":"bot_command","offset":0,"length":6}]}}',true);}
         
+		$logger = new Logger();
+		$logger->logUpdate(print_r($data, true));
+		
         $Update = new Update($data, $this);
         return $Update;
     }

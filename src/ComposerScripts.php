@@ -72,7 +72,7 @@ class ComposerScripts
         }
         if(FileBuilder::buildBotFiles($name, $token) == false){
             echo "An error occured! Bot deleted! please try to create a new bot again.";
-            $this->rrmdir($name);
+            self::rrmdir($name);
             exit();
         }
         
@@ -163,14 +163,14 @@ class ComposerScripts
 		exit();
     }
     
-    private function rrmdir($src) 
+    private static function rrmdir($src) 
     {
         $dir = opendir($src);
         while(false !== ( $file = readdir($dir)) ) {
             if (( $file != '.' ) && ( $file != '..' )) {
                 $full = $src . '/' . $file;
                 if ( is_dir($full) ) {
-                    $this->rrmdir($full);
+                    self::rrmdir($full);
                 }
                 else {
                     unlink($full);
