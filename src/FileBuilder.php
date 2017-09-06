@@ -7,8 +7,13 @@ class FileBuilder
     public static function buildBotFiles($name, $token)
     {
         //bot.php
-        $searchF  = array('{bot_var_name}', '{bot_token}');
-        $replaceW = array($name, $token);
+        define('APP_ROOT_FOLDER', getcwd());
+        define('BOT_NAME', $name);
+        
+        $bot = new Bot($token);
+        
+        $searchF  = array('{bot_var_name}', '{bot_token}', '{bot_username}', '{bot_name}', '{bot_id}');
+        $replaceW = array($name, $token, $bot->getUsername(), $bot->getName(), $bot->getId());
         
         $file = file_get_contents(__DIR__ . "/bot_file_templates/bot.txt");
         if ($file == false){
