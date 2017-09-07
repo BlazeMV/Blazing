@@ -12,6 +12,7 @@ class BotException extends Exception
         $logger = new Logger(BOT_NAME);
         
         $logger->logError($message . "\n" . parent::__tostring() . "\nerror code: " . $code);
+		exit;
     
         // make sure everything is assigned properly
         parent::__construct($message, $code, $previous);

@@ -15,7 +15,7 @@ function shutDownFunction() {
     $logger = new Logger(BOT_NAME);
     $logger->logError(var_export($error, true));
 }
-register_shutdown_function('shutDownFunction');
+register_shutdown_function('{bot_var_name}\shutDownFunction');
 
 //autoloads this bot (so you can use this bots namespace on other places)
 $loader = require APP_ROOT_FOLDER . '/vendor/autoload.php';

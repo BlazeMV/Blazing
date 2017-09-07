@@ -14,6 +14,7 @@ class Updates{
             $msg = $update->getUpdateObject();
             if ($update->hasCommand()){
                 $command = strtolower(str_ireplace('/', '', $update->getCommand()));
+                $command = str_ireplace("@" . $bot->getUsername(), '', $command);
                 
                 Commands::$command($bot, $msg);
             }
