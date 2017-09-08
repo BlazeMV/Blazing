@@ -19,7 +19,7 @@ class Commands{
     */
     public static function start(Bot $bot, Message $msg){
         // checks whether the command msg contains any other text
-        if (strtolower($msg->getText()) !== '/start'){
+        if (strtolower(str_ireplace("@" . $bot->getUsername(), '', $msg->getText())) !== '/start'){
             exit();
         }
         $bot->sendRequest(array(
@@ -35,7 +35,7 @@ class Commands{
     */
     public static function help(Bot $bot, Message $msg){
         // checks whether the command msg contains any other text
-        if (strtolower($msg->getText()) !== '/help'){
+        if (strtolower(str_ireplace("@" . $bot->getUsername(), '', $msg->getText())) !== '/help'){
             exit();
         }
         $text = "help";     //help text here
