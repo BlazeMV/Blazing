@@ -2,7 +2,7 @@
 
 namespace Blazing\api\inline;
 
-use Blazing\User;
+use Blazing\api\User;
 use Blazing\api\media\Location;
 
 class InlineQuery{
