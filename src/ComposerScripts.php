@@ -44,7 +44,7 @@ class ComposerScripts
         $name = $args[1];
         $token = $args[2];
         
-        $pregtoken = '/^[0-9]{9}:[a-zA-Z0-9-]{35}$/';
+        $pregtoken = '/^[0-9]{9}:[a-zA-Z0-9-*_*]{35}$/';
         $pregname = '/^[a-zA-Z0-9]{1,20}$/';
         $tokenresult = preg_match($pregtoken, $token);
         $nameresult = preg_match($pregname, $name);
