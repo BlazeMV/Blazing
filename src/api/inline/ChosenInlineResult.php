@@ -2,52 +2,66 @@
 
 namespace Blazing\api\inline;
 
+use Blazing\User;
+use Blazing\api\media\Location;
+
 class ChosenInlineResult{
     
     protected $ChosenInlineResult;
+    protected id;
+    protected from;
+    protected sender;
+    protected location;
+    protected inline_message_id;
+    protected query;
     
     public function __construct(array $result){
         $this->ChosenInlineResult = $result;
-    }
-    
-    public function __get($field) {
-        $field_name = str_ireplace(array('_', '-', '.'), '', $field);
-        $ref = new \ReflectionClass($this);
-        $found = false;
-        foreach ($ref->getproperties() as $prop){
-            if (strtolower($prop->getName()) == strtolower($field_name)){
-                $found = true;
-                $temp = $prop->getName();
-                return $this->$temp;
-            }
+        $this->id = $result['result_id'];
+        $this->from = new User($result['from']);
+        $this->sender = $this->from;
+        if (isset($result['location']){
+            $this-> = new Location($result['location']);
         }
-        if (!$found){
-            throw new \Exception("Unknown method " . $method);
+        if (isset($result['inline_message_id']){
+            $this-> = $result['inline_message_id'];
         }
-    }
-    
-    public function __set($field, $value) {
-        $field_name = str_ireplace(array('_', '-', '.'), '', $field);
-        $ref = new \ReflectionClass($this);
-        $found = false;
-        foreach ($ref->getproperties() as $prop){
-            if (strtolower($prop->getName()) == strtolower($field_name)){
-                $found = true;
-                $temp = $prop->getName();
-                $this->$temp = $value[0];
-                return true;
-            }
-        }
-        if (!$found){
-            throw new \Exception("Unknown method set" . $field);
-        }
+        $this-> = $result['query'];
     }
     
     public function __call($method, $args) {
         if (strtolower(substr((string)$method, 0, 3)) == 'get'){
-            return $this->__get(substr($method, 3));
+            $strip_field = substr($method, 3);
+            $strip_field = strtolower(str_ireplace(array('_', '-', '.'), '', $strip_field));
+            $ref = new \ReflectionClass($this);
+            $found = false;
+            foreach ($ref->getproperties() as $prop){
+                $strip_prop = strtolower(str_ireplace(array('_', '-', '.'), '', $prop->getName()));
+                if ($strip_field == $strip_prop){
+                    $found = true;
+                    $temp = $prop->getName();
+                    return $this->$temp;
+                }
+            }
+            if (!$found){
+                throw new \Exception("Unknown method " . $method);
+            }
         }elseif (strtolower(substr((string)$method, 0, 3)) == 'set'){
-            return $this->__set(substr($method, 3), $args);
+            $strip_field = substr($method, 3);
+            $strip_field = strtolower(str_ireplace(array('_', '-', '.'), '', $strip_field));
+            $ref = new \ReflectionClass($this);
+            $found = false;
+            foreach ($ref->getproperties() as $prop){
+                $strip_prop = strtolower(str_ireplace(array('_', '-', '.'), '', $prop->getName()));
+                if ($strip_field == $strip_prop){
+                    $found = true;
+                    $temp = $prop->getName();
+                    $this->$temp = $args[0];
+                }
+            }
+            if (!$found){
+                throw new \Exception("Unknown method " . $method);
+            }
         }else{
             throw new \Exception("Unknown method " . $method);
         }
